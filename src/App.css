@@ -1,0 +1,57 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.input__wrapper{
+  display: grid;
+  grid-template-columns: 300px;
+  gap:25px;
+}
+
+.input{
+  padding:15px;
+  border-radius: 5px;
+  border:none;
+
+  &:hover{
+    border: 1px solid white;
+  }
+}
+
+.add__btn{
+  padding:10px 20px;
+
+  &:hover{
+    border: 1px solid white;
+  }
+}
+
+.tasks__list {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap:10px;
+  list-style: none;
+  width: 100%;
+  padding:0;
+}
+
+.list__items {
+  padding:5px;
+  color:black;
+  border-radius: 5px;
+  background-color: rgb(201, 211, 212);
+  align-items: center;
+}
+
+.li__checkbox{
+  float: right;
+  margin: 5px;
+}
+
+.completed {
+  text-decoration: line-through;
+}
