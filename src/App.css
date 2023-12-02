@@ -48,10 +48,17 @@
 }
 
 .li__checkbox{
-  float: right;
+  float: left;
   margin: 5px;
 }
 
 .completed {
   text-decoration: line-through;
+}
+
+.delete__button{
+  width: 15px;
+  float: right;
+  padding:5px;
+  cursor: pointer;
 }
