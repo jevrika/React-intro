@@ -12,8 +12,10 @@ type Task = {
 const ToDoList = () => {
   const [list, setList] = useState<Task[]>([]);
   const [input, setInput] = useState('');
+  const [isEdit, setIsEdit] = useState(false)
+  const [editingTaskId, setEditingTaskId] = useState<number | null>(null);
+  const [editingTaskText, setEditingTaskText] = useState('');
 
-// pievieno tasku ar id, nosaukumu un complete statusu
   const addTask = (task: string) => {
     id += 1
     const newTask: Task = {
@@ -22,17 +24,12 @@ const ToDoList = () => {
       complete: false
     }
 
-    // pievienot esošajiem taskiem jaunu tasku
     setList([...list, newTask])
 
-    // iztīra inputu
     setInput('')
   }
 
   const toggleComplete = (taskId: number) => {
-    // iet cauri, katram taskam, skatas vai id nav vienāks ar uzspiestā taska id,
-    // ja ir, tad skatas vai nav true, ja ir samaina uz false un otrādi
-    // atgriež samainīto task
     setList(list.map((task) => {
       if (task.id === taskId) {
         task.complete = task.complete === true ? false : true
@@ -42,8 +39,7 @@ const ToDoList = () => {
       }
     }))
   }
-// Atgriež visus taskus, kuriem nesakrīt id ar padoto id
-  const handleDeleteClick = (taskId:number) => {
+  const handleDeleteClick = (taskId: number) => {
     const removeItem = list.filter((task) => {
       return task.id !== taskId;
     })
@@ -51,25 +47,57 @@ const ToDoList = () => {
     return setList(removeItem)
   }
 
+  const handleEdit = (taskId: number, taskText: string) => {
+    setIsEdit(true);
+    setEditingTaskId(taskId);
+    setEditingTaskText(taskText);
+  };
+
+  const handleEditTask = () => {
+    if (editingTaskId !== null) {
+      setList(list.map((task) => {
+        if (task.id === editingTaskId) {
+          task.task = editingTaskText;
+        }
+        return task;
+      }));
+
+      setIsEdit(false);
+      setEditingTaskId(null);
+      setEditingTaskText('');
+    }
+  };
+
   return (
     <div className='input__wrapper'>
       <ul className='tasks__list'>
-        {/* iet cauri list masīvām un izvada sarakstā tasku */}
         {list.map((task) => (
-          <li 
+          <li
             className={`list__items ${task.complete === true ? 'completed' : ''}`} key={task.id} >
-            {task.task}
             <input className='li__checkbox' type='checkbox' checked={task.complete} onChange={() => toggleComplete(task.id)} />
-            <img className='delete__button' src='/src/assets/delete-button.svg' alt='delete button' onClick={() => handleDeleteClick(task.id)}  />
+            {task.task}
+            <div className="iconWrapper">
+              <span className="delete__button material-symbols-outlined" onClick={() => handleDeleteClick(task.id)} >delete</span>
+              <span className={`test material-symbols-outlined`} onClick={() => handleEdit(task.id, task.task)}>edit</span>
+            </div>
           </li>
         ))}
       </ul>
-
-      <input className='input' type='text' value={input} placeholder='add your task' onChange={(e) => setInput(e.target.value)} ></input>
-      <button className='add__btn' type='submit' onClick={() => addTask(input)} > Add Task!</button>
+      {isEdit ? (
+        <>
+          <input className='input' type='text' value={editingTaskText} placeholder='add your task...' onChange={(e) => setEditingTaskText(e.target.value)} ></input>
+          <button className='add__btn' type='submit' onClick={() => handleEditTask()} > Edit Task!</button>
+        </>
+      ) : (
+        <>
+          <input className='input' type='text' value={input} placeholder='add your task...' onChange={(e) => setInput(e.target.value)} ></input>
+          <button className='add__btn' type='submit' onClick={() => addTask(input)} > Add Task!</button>
+        </>
+      )}
 
     </div>
   )
 }
 
 export default ToDoList
+

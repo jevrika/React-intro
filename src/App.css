@@ -45,6 +45,8 @@
   border-radius: 5px;
   background-color: rgb(201, 211, 212);
   align-items: center;
+  display: flex;
+  justify-content: space-between;
 }
 
 .li__checkbox{
@@ -57,7 +59,15 @@
 }
 
 .delete__button{
-  width: 15px;
+  width: 10px;
+  float: right;
+  padding:5px;
+  padding-right:10px;
+  cursor: pointer;
+}
+
+.test{
+  width: 10px;
   float: right;
   padding:5px;
   cursor: pointer;
